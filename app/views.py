@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, reverse
+
 from app.forms import UserFormCreation, TripForm, GuideForm
 from app.models import TourGuide, User, Trip
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 import stripe
+
 import environ
 env = environ.Env()
 environ.Env.read_env()
@@ -106,4 +108,3 @@ def guide(request):
         form = TripForm()
     return render(request, 'guide.html', {'form': form, 'no_footer': True, 'guide_T': True})
 
-        

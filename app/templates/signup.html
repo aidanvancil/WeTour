@@ -32,7 +32,13 @@
                                 {{ form.password2|add_class:"rounded" }}
                             </div>    
                         </div>
-                        <div class="transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105 mx-auto flex-col items-center justify-center mt-10">
+                        <div class="transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105 mx-auto flex-col items-center justify-center mt-10 flex flex-col items-center">
+                            
+                            {{ form.phone_number|add_class:"rounded" }}
+                            
+                        </div> 
+                        
+                        <div class="transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105 mx-auto flex-col items-center justify-center mt-10 flex flex-col items-center">
                             
                             <input class=" btn login_btn font-bold text-white px-4 py-2 bg-[#03915E] rounded-lg w-1/2 mx-auto" type="submit" value="submit">
                             
