@@ -17,10 +17,10 @@
         <div class='flex justify-between p-4 font-ubuntu font-bold mt-2 text-[#434343] space-x-12'>
             <img src="" alt="" />
             <img src="" alt="" />
-            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'home' %}">Trips</a></h3>
-            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'payments' %}">Payments</a></h3>
-            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline md:block hidden'><a class="" href="{% url 'guide' %}">Become A Tour Guide</a></h3>
-            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'profile' %}">Profile</a></h3>
+            {% if not homepage_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'home' %}">Trips</a></h3>{% endif %}
+            {% if not payments_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'payments' %}">Payments</a></h3>{% endif %}
+            {% if not guide_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline md:block hidden'><a class="" href="{% url 'guide' %}">Become A Tour Guide</a></h3>{% endif %}
+            {% if not profile_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'profile' %}">Profile</a></h3>{% endif %}
             <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline sm:block hidden'><a class="" href="{% url 'logout' %}">{{user.username}} | Log Out</a></h3>
         </div>
       </nav>
