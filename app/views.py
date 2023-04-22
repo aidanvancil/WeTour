@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, reverse
-from app.forms import UserFormCreation
+from app.forms import UserFormCreation, TripForm, GuideForm
 from app.models import TourGuide, User, Trip
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+
 import environ
 
 env = environ.Env()
@@ -22,28 +24,74 @@ def signup(request):
         f = UserFormCreation()
     return render(request, 'signup.html')
 
+
 def login(request):
     if request.method == 'POST':
-        f = UserFormCreation(request.POST)
-        if f.is_valid():
-            f.save()
-            return redirect('home.html')
-    else:
-        f = UserFormCreation()
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            redirect('home')
+        else:
+            error_message = "Username or password is incorrect."
+            context = {'error_message': error_message}
+            return render(request, 'login.html', context)
     return render(request, 'login.html')
+
+@login_required(login_url='login')
+def logout(request):
+    logout(request)
+    return redirect('login')
 
 def homepage(request):
     return render(request, 'homepage.html')
 
 def profile(request):
-    return render(request, 'profile.html')
+    return render(request, 'profile.html', {'no_footer': True})
 
+@login_required(login_url='login')
 def payments(request):
     return render(request, 'payments.html')
 
 def trip(request):
-    return render(request, 'trip.html')
+    if request.method == 'POST':
+        form = TripForm(request.POST)
+        if form.is_valid():
+            gender = form.cleaned_data['gender']
+            state = form.cleaned_data['state']
+            city = form.cleaned_data['city']
+            days = form.cleaned_data['days']
+            languages = form.cleaned_data['languages']
+            qualities = form.cleaned_data['qualities']
+            # Do something with the data
+            return redirect('home')
+    else:
+        form = TripForm()
+    return render(request, 'trip.html', {'form': form, 'no_footer': True})
 
-def tourguide(request):
-    return render(request, 'tourguide.html')
+def guide(request):
+    if request.method == 'POST':
+        form = GuideForm(request.POST)
+        if form.is_valid():
+            gender = form.cleaned_data['gender']
+            state = form.cleaned_data['state']
+            city = form.cleaned_data['city']
+            phone_number = form.cleaned_data['phone_number']
+            make = form.cleaned_data['make']
+            model = form.cleaned_data['model']
+            license_plate = form.cleaned_data['license_plate']
+            languages = form.cleaned_data['languages']
+            qualities = form.cleaned_data['qualities']
+            # Do something with the data
+            return redirect('home')
+    else:
+        form = TripForm()
+    return render(request, 'guide.html', {'form': form, 'no_footer': True})
 
+def view_guide(request):
+    if request.method == 'GET':
+        filtered_data = TourGuide.objects.filter(location__icontains=User.location)
+
+
+        
