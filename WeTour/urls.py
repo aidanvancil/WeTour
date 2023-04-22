@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.landing_page),
+    #path('signup', views.signup),
+    #path('login', views.login),
+    #path('profile', views.profile),
+    #path('payments', views.payments),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
