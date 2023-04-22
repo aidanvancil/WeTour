@@ -51,9 +51,9 @@ def homepage(request):
 def profile(request):
     return render(request, 'profile.html', {'no_footer': True, 'profile_T': True})
 
-@login_required(login_url='login')
+# @login_required(login_url='login') <- Todo: UNCOMMENT AT END
 def payments(request):
-    return render(request, 'payments.html', {'payments_T': True})
+    return render(request, 'payments.html', {'no_footer': True,'payments_T': True})
 
 
 def view_guide(request):

@@ -1,4 +1,37 @@
-{% extends 'base_home.html' %}
+{% extends 'base_home.html' %} <!-- Or base.html -->
+{% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
+    <div class="flex h-screen overflow-hidden justify-center">
+        <div class = "flex flex-col items-center justify-center w-4/5 h-5/6"> 
+            
+            <div class="bg-[#03915E] rounded-xl h-[85%] w-5/6"> 
+                <div
+                  style="border-width: 30px"
+                  class="bg-[#434343] h-full w-full ml-6 mt-6 rounded-xl border-amber-500">
+                  <h3 class="text-white p-5 font-bold rounded-lg text-5xl text-center">PAYMENTS</h3>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-1 gap-6">
+                            <div class="flex flex-col  w-5/6 mx-auto">
+                                {{ form.payment_information|add_class:"rounded" }}
+                            </div>
+                            <div class="flex flex-col  w-5/6 mx-auto">
+                                {{ form.confirmation|add_class:"rounded" }}
+                            </div>
+                        </div>
+                        <div class="transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105 mx-auto flex flex-col items-center justify-center mt-10">
+
+                            <input class=" btn submit_btn font-bold text-white px-4 py-2 bg-[#03915E] rounded-lg w-1/2 mx-auto" type="submit" value="submit">
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
 {% endblock %}
