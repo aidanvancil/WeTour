@@ -21,7 +21,7 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing_page),
-    #path('signup', views.signup),
+    path('signup', views.signup),
     #path('login', views.login),
     #path('profile', views.profile),
     #path('payments', views.payments),

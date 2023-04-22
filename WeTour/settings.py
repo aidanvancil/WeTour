@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 TAILWIND_APP_NAME = 'app'
 # Application definition
 
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'app',
     'django_browser_reload',
 ]
+
+
 
 INTERNAL_IPS = [
     "127.0.0.1",
