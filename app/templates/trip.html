@@ -1,42 +1,50 @@
 {% extends 'base_home.html' %}
-
+{% load widget_tweaks %}
 {% block content %}
 <section class="w-2/3 max-w-2/3 mx-auto my-10 px-5 py-10 bg-white rounded-lg shadow-lg">
-  <form method="post" action="trip" class="w-full md:w-3/4 lg:w-1/2 mx-auto space-y-6">
+  <form method="post" action="" class="w-full md:w-3/4 lg:w-1/2 mx-auto space-y-6">
     {% csrf_token %}
     <div class="grid grid-cols-2 gap-6">
       <div class="flex flex-col">
-        <label for="gender" class="font-bold text-gray-800 mb-2">Gender</label>
+        <label for="state" class="font-bold text-gray-800 mb-2">Destination: State</label>
+        {{ form.state|add_class:"rounded" }}
+
+      </div>
+      <div class="flex flex-col">
+        <label for="city" class="font-bold text-gray-800 mb-2">Destination: City</label>
+        {{ form.city|add_class:"rounded" }}
+      </div>
+      <div class="flex flex-col">
+        <label for="gender" class="font-bold text-gray-800 mb-2">Preferred Gender</label>
         <div class="relative">
-          {{ form.gender }}
+          {{ form.gender|add_class:"rounded" }}
         </div>
       </div>
+  
       <div class="flex flex-col">
-        <label for="state" class="font-bold text-gray-800 mb-2">State</label>
-        {{ form.state }}
-      </div>
-      <div class="flex flex-col">
-        <label for="city" class="font-bold text-gray-800 mb-2">City</label>
-        {{ form.city }}
-      </div>
-      <div class="flex flex-col">
-        <label for="days" class="font-bold text-gray-800 mb-2">Days</label>
-        {{ form.days }}
+        <label for="days" class="font-bold text-gray-800 mb-2">Days Out</label>
+        {{ form.days|add_class:"rounded" }}
       </div>
     </div>
     <div class="flex space-x-10 justify-items-center justify-center">
         <div class="flex flex-col">
         <label for="languages" class="font-bold text-gray-800 mb-2">Languages</label>
-        {{ form.languages }}
+        {{ form.languages|add_class:"rounded" }}
         </div>
         <div class="flex flex-col md:ml-24 sm:ml-10 ml-6">
-        <label for="qualities" class="font-bold text-gray-800 mb-2">Qualities</label>
-        {{ form.qualities }}
+          <label for="qualities" class="font-bold text-gray-800 mb-2">Qualities</label>
+          {{ form.qualities|add_class:"rounded" }}
         </div>
     </div>
+    <div class="flex flex-col items-center">
     <button class="bg-[#FCA503] text-[#434343] mt-6 font-bold py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none focus:shadow-outline" type="submit">
+
       Search
     </button>
+    </div>
   </form>
 </section>
 {% endblock %}
+
+
+

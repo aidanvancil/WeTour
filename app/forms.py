@@ -8,7 +8,10 @@ class UserFormCreation(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 class TripForm(forms.Form):
-
+    def validate_four_choices(value):
+        if len(value) > 4:
+            raise ValidationError('You may select up to four choices.')
+        
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
@@ -23,8 +26,15 @@ class TripForm(forms.Form):
     QUALITIES_CHOICES = (
         ('Q1', 'Shy'),
         ('Q2', 'Introvert'),
-        ('Q3', 'Adventurous'),
+        ('Q3', 'Extrovert'),
+        ('Q4', 'Adventurous'),
+        ('Q5', 'Daring'),
+        ('Q6', 'Calm'),
+        ('Q7', 'Nervous'),
+        ('Q8', 'Catious'),
+        ('Q9', 'Open Minded'),
     )
+
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(attrs={'class': 'form-select'}),
@@ -49,9 +59,8 @@ class TripForm(forms.Form):
         choices=QUALITIES_CHOICES,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-checkbox'}),
     )
-
+        
 class GuideForm(forms.Form):
-
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
@@ -66,7 +75,13 @@ class GuideForm(forms.Form):
     QUALITIES_CHOICES = (
         ('Q1', 'Shy'),
         ('Q2', 'Introvert'),
-        ('Q3', 'Adventurous'),
+        ('Q3', 'Extrovert'),
+        ('Q4', 'Adventurous'),
+        ('Q5', 'Daring'),
+        ('Q6', 'Calm'),
+        ('Q7', 'Nervous'),
+        ('Q8', 'Catious'),
+        ('Q9', 'Open Minded'),
     )
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,

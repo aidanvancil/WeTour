@@ -5,7 +5,7 @@
     <div class="flex h-screen overflow-hidden">        
         <div class="ml-9 p-4 w-1/2 relative flex justify-center">
             <div class="mt-16 w-250 h-250 rounded-[50%] bg-[#FCA503] absolute p-2 flex">
-                <img class="" src="{% static 'images/globe.png' %}" alt="">
+                <img class="hover:animate-pulse" src="{% static 'images/globe.png' %}" alt="">
             </div>
             <div class="absolute bottom-0 p-4 w-full mx-auto flex justify-center">
                 <h3 class="text-white bg-[#434343] px-4 py-2 rounded-lg mb-4 font-bold">We find you a tour so you can explore!</h3>
@@ -20,8 +20,9 @@
                 <div class="absolute top-2 left-2 bg-[#03915E] rounded-xl h-80 w-5/6 z-0"></div>
                 <div class="bg-[#FCA503] h-80 ml-3 mt-3 rounded-xl flex items-center relative ">
                   <div class="bg-white w-[85%] h-[85%] rounded-xl mx-auto space-y-5 text-center ">
-                    <h3 class="p-5 font-bold text-[#434343] md:block hidden"> Welcome to WeTour! The first friendly travel support system for unfamiliar grounds.</h3>
-                    <div class="flex flex-col space-y-12 p-3">
+                    <h3 class="p-5 font-bold text-[#434343] md:block hidden"> Welcome to <div class="px-2 py-0.5 bg-[#434343] rounded-lg inline">
+                      <span class="text-[#03915E]">We</span><span class="text-[#FCA503]">Tour.</span></div><p></p> The first friendly travel support system <p></p> for those on unfamiliar grounds.</h3>
+                    <div class="flex flex-col space-y-10 p-3">
                       <div class="transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105">
                         <a class="font-bold text-white px-4 py-2 bg-[#434343] rounded-lg w-1/2 mx-auto" href="{% url 'signup' %}">Signup Here!</a>
                         </div>

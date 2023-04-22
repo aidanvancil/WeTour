@@ -20,7 +20,7 @@ def signup(request):
         f = UserFormCreation(request.POST)
         if f.is_valid():
             f.save()
-            return redirect('register')
+            return redirect('login')
     else:
         f = UserFormCreation()
     return render(request, 'signup.html')
@@ -83,7 +83,7 @@ def trip(request):
             user.personality_traits = languages
             user.languages = qualities
             user.save()
-            return view_guide(request)
+            return render(request, 'render_guides.html')
     else:
         form = TripForm()
     return render(request, 'trip.html', {'form': form, 'no_footer': True})
@@ -104,7 +104,20 @@ def guide(request):
             # Do something with the data
             return redirect('home')
     else:
-        form = TripForm()
+        form = GuideForm()
     return render(request, 'guide.html', {'form': form, 'no_footer': True, 'guide_T': True})
 
-        
+def update_profile(request):
+    if request.method == 'POST':
+        user = User.objects.get(username=request.user.username)
+        fullname = request.POST.get('full_name')
+        fullname = fullname.split(' ')
+        phone_number = request.POST.get('phone_number')
+        user.firstname = fullname[0]
+        user.lastname = fullname[1]
+        user.phone_number = phone_number
+        user.save()
+    return render(request, 'profile.html')
+
+def card(request):
+    pass

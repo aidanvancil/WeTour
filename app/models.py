@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 class User(User):
     phone_number = models.CharField(max_length=20)
+    profile_pic = models.ImageField(null=True)
     city = models.CharField(max_length=30, null=True)
     state = models.CharField(max_length=30, null=True)
     gender = models.CharField(max_length=10, null=True)
