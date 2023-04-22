@@ -7,6 +7,15 @@ class UserFormCreation(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update({'placeholder': ('First Name')})
+        self.fields['last_name'].widget.attrs.update({'placeholder': ('Last Name')})
+        self.fields['username'].widget.attrs.update({'placeholder': ('Username')})
+        self.fields['email'].widget.attrs.update({'placeholder': ('Email')})
+        self.fields['password1'].widget.attrs.update({'placeholder': ('Password')})        
+        self.fields['password2'].widget.attrs.update({'placeholder': ('Repeat password')})
+
 class TripForm(forms.Form):
 
     GENDER_CHOICES = (
@@ -104,3 +113,4 @@ class GuideForm(forms.Form):
         choices=QUALITIES_CHOICES,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-checkbox'}),
     )
+
