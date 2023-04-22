@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import View
-from forms import UserFormCreation
+from app.forms import UserFormCreation
 import environ
 
 env = environ.Env()
