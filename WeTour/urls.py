@@ -20,10 +20,13 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.landing_page),
-    #path('signup', views.signup),
-    #path('login', views.login),
-    #path('profile', views.profile),
-    #path('payments', views.payments),
+    path('', views.landing_page, name='landing_page'),
+    path('home', views.homepage, name='home'),
+    path('signup', views.signup, name='signup'),
+    path('login', views.login, name='login'),
+    path('profile', views.profile, name='profile'),
+    path('payments', views.payments, name='payments'),
+    path('trip', views.trip, name='trip'),
+    path('tourguide', views.tourguide, name='tourguide'),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

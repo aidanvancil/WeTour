@@ -10,7 +10,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon/favicon.ico' %}">
 		{% tailwind_css %}
 	</head>
-	<body class="bg-[#434343] scroll-m-0">
+	<body {% if background_color %} class="bg-[{{ background_color }}]" {% else %} class="bg-[#434343] {% endif %} scroll-m-0">
 		{% block content %}
 		This is the default content.
 		{% endblock %}

@@ -1,1 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'base_home.html' %}
+
+{% block content %}
+<section>
+    {% if user.trips > 0 %}
+    <h3 class="text-center text-3xl text-white underline p-3 mt-2">Trips</h3>
+    
+    {% for trip in user.trips %}
+    <div id="card" class="flex my-auto p-5">
+        <div class="bg-[#FCA503] mx-auto h-80 w-60 rounded-lg relative">
+            <div class="flex bg-white mx-auto h-72 w-56 mt-3 justify-center rounded-lg">
+                
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h3 class="text-center text-3xl text-white underline p-3 mt-2">No Trips...</h3>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <title>WeTour</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon/favicon.ico' %}">
+		{% tailwind_css %}
+	</head>
+  <nav class="bg-white sticky flex top-0 text-center justify-between p-2 z-50">
+        <div class='flex relative mls-10' style="display: flex; justify-content: center; align-items: center;">
+          <img class="max-h-[40px] !important" src="{% static 'images/logo.png' %}" alt="logo"/>
+        </div>
+        <div class='flex justify-between p-4 font-ubuntu font-bold mt-2 text-[#434343] space-x-12'>
+            <img src="" alt="" />
+            <img src="" alt="" />
+            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'trip' %}">Trips</a></h3>
+            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'payments' %}">Payments</a></h3>
+            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline md:block hidden'><a class="" href="{% url 'tourguide' %}">Become A Tour Guide</a></h3>
+            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'profile' %}">Profile</a></h3>
+            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline sm:block hidden'><a class="" href="{% url 'trip' %}">Contact Us</a></h3>
+        </div>
+      </nav>
+	<body class="bg-[#434343] scroll-m-0">
+		{% block content %}
+		This is the default content.
+		{% endblock %}
+	</body>
+  <footer class="bg-white py-6 inset-x-0 w-full p-2 h-48 bottom-0 fixed left-0 right-0" id="contact">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex ml-20 mr-20 justify-between">
+        
+      </div>
+    </div>
+  </footer>
+</html>
