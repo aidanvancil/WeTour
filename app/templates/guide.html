@@ -1,0 +1,32 @@
+{% extends 'base_home.html' %}
+
+{% block content %}
+<section class="w-2/3 h-1/2 mx-auto bg-white p-5 rounded-lg mt-10 mb-10">
+    <form method="post" action="trip" class="mx-auto mt-5">
+        <div class="w-1/2 mx-auto space-y-1 text-[#FCA503]">
+            {% csrf_token %}
+            <div class="">
+                <p class="font-bold">Gender: </p><div class="text-black">{{ form.gender }}</div>
+                <p class="font-bold">State: </p><div class="text-black">{{ form.state }}</div>
+                <p class="font-bold">City: </p><div class="text-black">{{ form.city }}</div>
+                <p class="font-bold">Days: </p><div class="text-black">{{ form.days }}</div>
+                <p class="font-bold">Phone Number: </p><div class="text-black">{{ form.phone_number }}</div>
+                <p>For this position you must be able to drive around. Continue filling out the form if you are an eligible driver. Background checks will be put in place. </p>
+                <p class="font-bold">Car Make: </p><div class="text-black">{{ form.make }}</div>
+                <p class="font-bold">Car Model: </p><div class="text-black">{{ form.model }}</div>
+                <p class="font-bold">Car License: </p><div class="text-black">{{ form.license_plate }}</div>
+            </div>
+            <div class="flex space-x-10">
+                <div class=""><p class="font-bold">Languages: </p><div class="text-black">{{ form.languages }}</div></div>
+                <div class="text-left"><p class="font-bold">Qualities: </p><div class="text-black">{{ form.qualities }}</div></div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-[#FCA503] text-[#434343] mx-auto mt-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Submit
+            </button>
+        </div>
+    </form>
+    
+</section>
+{% endblock %}
