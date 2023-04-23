@@ -31,7 +31,7 @@ QUALITIES_CHOICES = [
 
 LANGUAGES = [
     'English',
-    'Deutsh',
+    'Deutsch',
     'French',
     'Mandarin',
     'Spanish',
@@ -45,11 +45,6 @@ LANGUAGES = [
 
 account_sid = "AC4b86583693a11577de644ae6b6dd2b5b"
 client = Client(account_sid, auth_token)
-#message = client.messages.create(
- # body="Hello",
-  #from_="+18552256052",
-  #to="+16616078687"
-#)
 
 def spawn_trips(request):
     return (Profile.objects.filter(user=request.user))
@@ -65,9 +60,7 @@ def signup(request):
         if form.is_valid() and p_reg_form.is_valid():
             user = form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
-            p_reg_form = ProfileRegisterForm(request.POST, instance=user.profile)
-            print(p_reg_form)
-            
+            p_reg_form = ProfileRegisterForm(request.POST, instance=user.profile)            
             p_reg_form.full_clean()
             p_reg_form.save()
             messages.success(request, f'Your account has been sent for approval!')
@@ -105,9 +98,8 @@ def logout(request):
 def homepage(request):
     trips = Trip.objects.filter(user=request.user).all()
     trips_count = Trip.objects.filter(user=request.user).count()
-    print(trips)
-    print(trips_count)
-    return render(request, 'homepage.html', {'homepage_T': True, 'trips':trips, 'trip_count':trips_count})
+    context = {'homepage_T': True, 'trips':trips, 'trips_count':trips_count}
+    return render(request, 'homepage.html', context)
 
 @login_required(login_url='login')
 def profile(request):
@@ -132,21 +124,33 @@ def view_guide(request):
         return redirect('home')
 
 @login_required(login_url='login')
-def trip(request):
+def trip(request, param=None):
     if request.method == 'POST':
         form = TripForm(request.POST)
         if form.is_valid():
-            gender = form.cleaned_data['gender']
             state = form.cleaned_data['state']
             city = form.cleaned_data['city']
             newTrip = Trip()
             newTrip.destination = city + ', ' + state
             newTrip.user = request.user
+            newTrip.generate_map_image()
             newTrip.save()
-            return redirect('render_guides')
+            message = client.messages.create(
+                body="""Hey! This is WeTour, thanks for booking a trip. We will reach out shortly. In the meantime, enjoy the ride.""",
+                from_="+18552256052",
+                to="+16616078687"
+            )
+            return redirect('home')
     else:
-        form = TripForm()
-    return render(request, 'trip.html', {'form': form, 'no_footer': True, 'qualities': QUALITIES_CHOICES, 'languages': LANGUAGES})
+        if param is not None:
+            return trip_detail_view(request, param)
+        else:
+            form = TripForm()
+            return render(request, 'trip.html', {'form': form, 'no_footer': True, 'qualities': QUALITIES_CHOICES, 'languages': LANGUAGES})
+
+def trip_detail_view(request, pk):
+    trip_t = Trip.objects.get(pk=pk)
+    return render(request, 'trip_detail.html', {'trip': trip_t})
 
 @login_required(login_url='login')
 def guide(request):
@@ -155,12 +159,13 @@ def guide(request):
         if form.is_valid():
             bio = form.cleaned_data['bio']
             profile = spawn_trips(request)
-            guide = TourGuide()
-            response = co.summarize(text=bio)
-            guide.user = profile[0]
-            guide.bio = response.classifications.prediction
+            #guide = TourGuide()
+            #response = co.summarize(text=bio)
+            #guide.user = profile[0]
+            
+            #guide.bio = response.classifications.prediction
             guide.save()
-            return redirect('home')
+            return view_guide(request)
     else:
         form = GuideForm()
     return render(request, 'guide.html', {'form': form, 'no_footer': True, 'guide_T': True, 'qualities': QUALITIES_CHOICES, 'languages': LANGUAGES})

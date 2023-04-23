@@ -29,6 +29,7 @@ urlpatterns = [
     path('update_profile', views.update_profile, name='update_profile'),
     path('about', views.about_us, name='about'),
     path('trip', views.trip, name='trip'),
+    path('trip/<int:param>', views.trip, name='tript'),
     path('render_guides', views.view_guide, name='render_guides'),
     path('guide', views.guide, name='guide'),
     path('card', views.card, name='card'),

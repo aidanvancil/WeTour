@@ -57,7 +57,7 @@ class TripForm(forms.Form):
     
         
 class GuideForm(forms.Form):
-    profile_pic = forms.ImageField()
+    profile_pic = forms.ImageField(required=False)
     bio = forms.CharField(
         max_length=200,
         widget=forms.TextInput(attrs={'class': 'form-input'})
@@ -67,10 +67,6 @@ class GuideForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-input'}),
     )
     city = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-input'}),
-    )
-    phone_number = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'form-input'}),
     )

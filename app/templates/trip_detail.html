@@ -1,0 +1,40 @@
+{% extends 'base_home.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="flex h-screen overflow-hidden justify-center">
+        <div class = "flex flex-col items-center justify-center w-4/5 h-5/6"> 
+            
+            <div class="bg-[#03915E] rounded-xl h-[85%] w-5/6"> 
+                <div
+                  style="border-width: 30px"
+                  class="bg-[#434343] h-full w-full ml-6 mt-6 rounded-xl border-amber-500 bg-white">
+                  <h3 class="text-[#434343] p-5 font-bold rounded-lg text-5xl text-center mb-4">Trip Details</h3>
+                    <div class="grid grid-cols-2">
+                        <div class="space-y-20 p-4">
+                            <div>
+                                <h2 class="flex"> <span class="font-bold text-2xl text-[#434343]">Destination: <span class="underline">{{trip.destination}}</span></h2>
+                                <ul class="space-y-5 mt-10">
+                                    <li>Here are the details for Trip {{ trip.id }}:</li>
+                                    <li> <span class="font-bold">Status:</span> Pending</li>
+                                    <li>Looking for travel guide @ April 23rd!</li>
+                                </ul>
+                            </div>
+                            <div class="mt-10 text-center px-4 py-2 bg-[#434343] font-bold text-white rounded-lg transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105">
+                                <a href="{% url 'home' %}"><div>Close</div></a>
+                            </div>
+                        </div>
+                        <div class="flex "><img class="rounded-full border-2 my-auto border border-amber-500" src="{{ trip.picture }}" alt="Trip Picture"></div>
+                            
+                            
+                    </div>
+                    
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+{% endblock %}
