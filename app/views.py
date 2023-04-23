@@ -12,7 +12,7 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
-token = env('AUTH_TOKEN')
+token = "HzjCMtH41AM8MQnmvPqosSQom9CUm981o3M9KCO8"
 
 
 co = cohere.Client(token)
@@ -30,7 +30,6 @@ def spawn_trips():
     return user, profiles
 
 def signup(request):
-    cohere()
     if request.method == 'POST':
         form = UserFormCreation(request.POST)
         p_reg_form = ProfileRegisterForm(request.POST)
@@ -55,7 +54,6 @@ def signup(request):
 
 
 def login(request):
-    cohere()
     if request.method == 'POST':
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -78,7 +76,12 @@ def logout(request):
 
 def homepage(request):
     users, profiles = spawn_trips()
-    cohere()
+
+    # results = []
+    # for profile in profiles:
+    #     for trait in profile.personality_traits:
+    #         if trait in 
+
     return render(request, 'homepage.html', {'homepage_T': True, 'users': users, 'profiles': profiles})
 
 def profile(request):
@@ -102,9 +105,7 @@ def payments(request):
 def view_guide(request):
     if request.method == 'GET':
         filtered_guides = TourGuide.objects.filter(user__city=request.user.city)
-        response = co.summarize(text=TourGuide.bio)
-        print(response)
-        context = {'guides': filtered_guides, 'bio': response}
+        context = {'guides': filtered_guides}
         return render(request, 'render_guides.html', context)
     else:
         return redirect('home')
@@ -151,7 +152,10 @@ def guide(request):
             languages = form.cleaned_data['languages']
             qualities = form.cleaned_data['qualities']
             biography = form.cleaned_data['biography']
+            response = co.summarize(text=bio)
+            print(response)
             # Do something with the data
+            
 
 
             return redirect('home')
