@@ -5,11 +5,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-
+import cohere  
 
 def landing_page(request):
     context = {'background_color': '#000000'}
     return render(request, 'landing_page.html', context)
+
+def cohere():
+    
+    co = cohere.Client(api_key)
 
 def spawn_trips():
     users = User.objects.all()
@@ -105,7 +109,7 @@ def trip(request):
             languages = form.cleaned_data['languages']
             qualities = form.cleaned_data['qualities']
             biography = form.cleaned_data['biography']
-            user = Profile.objects.get(username=request.user.username)
+            user = User.objects.filter(username=request.user)
             user.gender = gender
             user.city = city
             user.state = state
@@ -114,6 +118,8 @@ def trip(request):
             user.languages = qualities
             user.biography = biography
             user.save()
+            
+
             return view_guide(request)
     else:
         form = TripForm()
@@ -134,6 +140,8 @@ def guide(request):
             qualities = form.cleaned_data['qualities']
             biography = form.cleaned_data['biography']
             # Do something with the data
+
+
             return redirect('home')
     else:
         form = TripForm()

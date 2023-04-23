@@ -36,3 +36,4 @@ class Trip(models.Model):
     is_paid = models.BooleanField(null=True)
     description = models.TextField()
     tour_guide = models.ForeignKey(TourGuide, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
