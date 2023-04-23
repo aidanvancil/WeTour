@@ -3,15 +3,22 @@ from django.contrib.auth.models import User
 from django import forms
 
 class UserFormCreation(UserCreationForm):
+    phone_number = forms.CharField(max_length=20)
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'phone_number']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update({'placeholder': ('First Name')})
+        self.fields['last_name'].widget.attrs.update({'placeholder': ('Last Name')})
+        self.fields['username'].widget.attrs.update({'placeholder': ('Username')})
+        self.fields['email'].widget.attrs.update({'placeholder': ('Email')})
+        self.fields['password1'].widget.attrs.update({'placeholder': ('Password')})        
+        self.fields['password2'].widget.attrs.update({'placeholder': ('Repeat password')})
+        self.fields['phone_number'].widget.attrs.update({'placeholder': ('Phone #')})
 
 class TripForm(forms.Form):
-    def validate_four_choices(value):
-        if len(value) > 4:
-            raise ValidationError('You may select up to four choices.')
-        
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
@@ -23,17 +30,17 @@ class TripForm(forms.Form):
         ('ES', 'Spanish'),
         ('DE', 'German'),
     )
-    QUALITIES_CHOICES = (
-        ('Q1', 'Shy'),
-        ('Q2', 'Introvert'),
-        ('Q3', 'Extrovert'),
-        ('Q4', 'Adventurous'),
-        ('Q5', 'Daring'),
-        ('Q6', 'Calm'),
-        ('Q7', 'Nervous'),
-        ('Q8', 'Catious'),
-        ('Q9', 'Open Minded'),
-    )
+    QUALITIES_CHOICES = [
+        'Shy',
+        'Introvert',
+        'Extrovert',
+        'Adventurous',
+        'Daring',
+        'Calm',
+        'Nervous',
+        'Cautious',
+        'Open Minded',
+    ]
 
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
@@ -51,14 +58,8 @@ class TripForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'form-input'}),
     )
-    languages = forms.MultipleChoiceField(
-        choices=LANGUAGES_CHOICES,
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-multiselect'}),
-    )
-    qualities = forms.MultipleChoiceField(
-        choices=QUALITIES_CHOICES,
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-checkbox'}),
-    )
+    
+    
         
 class GuideForm(forms.Form):
     GENDER_CHOICES = (
@@ -72,17 +73,7 @@ class GuideForm(forms.Form):
         ('ES', 'Spanish'),
         ('DE', 'German'),
     )
-    QUALITIES_CHOICES = (
-        ('Q1', 'Shy'),
-        ('Q2', 'Introvert'),
-        ('Q3', 'Extrovert'),
-        ('Q4', 'Adventurous'),
-        ('Q5', 'Daring'),
-        ('Q6', 'Calm'),
-        ('Q7', 'Nervous'),
-        ('Q8', 'Catious'),
-        ('Q9', 'Open Minded'),
-    )
+    
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(attrs={'class': 'form-select'}),
@@ -98,24 +89,4 @@ class GuideForm(forms.Form):
     phone_number = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'form-input'}),
-    )
-    make = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-input'}),
-    )
-    model = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-input'}),
-    )
-    license_plate = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-input'}),
-    )
-    languages = forms.MultipleChoiceField(
-        choices=LANGUAGES_CHOICES,
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-multiselect'}),
-    )
-    qualities = forms.MultipleChoiceField(
-        choices=QUALITIES_CHOICES,
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-checkbox'}),
     )

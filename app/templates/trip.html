@@ -1,14 +1,13 @@
 {% extends 'base_home.html' %}
 {% load widget_tweaks %}
 {% block content %}
-<section class="w-2/3 max-w-2/3 mx-auto my-10 px-5 py-10 bg-white rounded-lg shadow-lg">
-  <form method="post" action="" class="w-full md:w-3/4 lg:w-1/2 mx-auto space-y-6">
+<section class="w-2/3 mx-auto my-10 px-5 py-10 bg-white rounded-lg shadow-lg">
+  <form method="post" action="" id="inpform" class="w-full md:w-3/4 lg:w-1/2 mx-auto space-y-6">
     {% csrf_token %}
     <div class="grid grid-cols-2 gap-6">
       <div class="flex flex-col">
         <label for="state" class="font-bold text-gray-800 mb-2">Destination: State</label>
         {{ form.state|add_class:"rounded" }}
-
       </div>
       <div class="flex flex-col">
         <label for="city" class="font-bold text-gray-800 mb-2">Destination: City</label>
@@ -22,28 +21,90 @@
       </div>
   
       <div class="flex flex-col">
-        <label for="days" class="font-bold text-gray-800 mb-2">Days Out</label>
+        <label for="days" class="font-bold text-gray-800 mb-2">Date of Arrival</label>
         {{ form.days|add_class:"rounded" }}
       </div>
     </div>
-    <div class="flex space-x-10 justify-items-center justify-center">
-        <div class="flex flex-col">
-        <label for="languages" class="font-bold text-gray-800 mb-2">Languages</label>
-        {{ form.languages|add_class:"rounded" }}
+    <div class="">
+      <label for="languages" class="font-bold text-gray-800 mb-2">Languages</label>
+      <div id="language-buttons" class="flex flex-wrap mb-4">
+        {% for i in languages %}
+          <button class="rounded bg-gray-200 text-gray-800 px-4 py-2 mr-2 my-1 language-button" data-value="{{ i }}">
+            {{ i }}
+          </button>
+        {% endfor %}
+      </div>
+      <div id="selected-languages" class="mt-4">
+        <span class="font-bold text-gray-800 mr-2">Selected Languages:</span>
+        <ul id="selected-languages-list"></ul>
+      </div>
+    </div>
+        
+      <div class="">
+        <label for="qualities" class="font-bold text-gray-800 mb-2">Qualities</label>
+        <div id="qualitatives-buttons" class="flex flex-wrap mb-4">
+          {% for i in qualities %}
+            <button class="rounded bg-gray-200 text-gray-800 px-4 py-2 mr-2 my-1 qualitative-button" data-value="{{ i }}">
+              {{ i }}
+            </button>
+          {% endfor %}
         </div>
-        <div class="flex flex-col md:ml-24 sm:ml-10 ml-6">
-          <label for="qualities" class="font-bold text-gray-800 mb-2">Qualities</label>
-          {{ form.qualities|add_class:"rounded" }}
+        <div id="selected-q-list" class="mt-4">
+          <span class="font-bold text-gray-800 mr-2">Selected Qualities:</span>
+          <ul id="selected-q-list"></ul>
         </div>
+      </div>
     </div>
     <div class="flex flex-col items-center">
-    <button class="bg-[#FCA503] text-[#434343] mt-6 font-bold py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none focus:shadow-outline" type="submit">
-
+    <button class="bg-[#FCA503] text-[#434343] mt-6 font-bolqd py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none focus:shadow-outline" type="submit">
       Search
     </button>
     </div>
   </form>
 </section>
+
+
+<script>
+const button = document.querySelectorAll('.language-button');
+const selectedClass = 'bg-blue-500-text-white'; 
+const selectedLanguagesList = document.getElementById('selected-languages-list');
+
+button.forEach(butto => {
+  butto.addEventListener('click', () => {
+    butto.classList.toggle(selectedClass);
+
+    if (butto.classList.contains(selectedClass)) {
+      selectedLanguagesList.appendChild(butto);
+    } else {
+      const listItem = document.createElement('li');
+      listItem.innerText = butto.getAttribute('data-value');
+      selectedLanguagesList.removeChild(butto);
+    }
+  });
+});
+</script>
+
+<script>
+  const buttons = document.querySelectorAll('.q-button');
+  const selectedClasss = 'bg-blue-500-text-white'; 
+  const selectedQList = document.getElementById('selected-q-list');
+  
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      button.classList.toggle(selectedClasss);
+  
+      if (button.classList.contains(selectedClasss)) {
+        selectedQList.appendChild(button);
+      } else {
+        const listItem = document.createElement('li');
+        listItem.innerText = button.getAttribute('data-value');
+        selectedQList.removeChild(button);
+        button.parentNode.insertBefore(listItem, button.nextSibling);
+      }
+    });
+  });
+  </script>
+
 {% endblock %}
 
 

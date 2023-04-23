@@ -18,7 +18,7 @@ class TourGuide(models.Model):
 class Trip(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trips')
     destination = models.CharField(max_length=100)
-    num_days = models.IntegerField()
+    date = models.DateField()
     is_paid = models.BooleanField(null=True)
     description = models.TextField()
     tour_guide = models.ForeignKey(TourGuide, on_delete=models.SET_NULL, null=True, blank=True)

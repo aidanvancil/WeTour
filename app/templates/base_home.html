@@ -8,6 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		{% tailwind_css %}
 	</head>
@@ -18,11 +19,10 @@
         <div class='flex justify-between p-4 font-ubuntu font-bold mt-2 text-[#434343] space-x-12'>
             <img src="" alt="" />
             <img src="" alt="" />
-            {% if not homepage_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'home' %}">Trips</a></h3>{% endif %}
-            {% if not payments_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'payments' %}">Payments</a></h3>{% endif %}
-            {% if not guide_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline md:block hidden'><a class="" href="{% url 'guide' %}">Become A Tour Guide</a></h3>{% endif %}
-            {% if not profile_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline'><a class="" href="{% url 'profile' %}">Profile</a></h3>{% endif %}
-            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 hover:underline sm:block hidden'><a class="" href="{% url 'logout' %}">{{user.username}} | Log Out</a></h3>
+            {% if not homepage_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation'><a class="" href="{% url 'home' %}">Trips</a></h3>{% endif %}
+            {% if not guide_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation md:block hidden'><a class="" href="{% url 'guide' %}">Become A Tour Guide</a></h3>{% endif %}
+            {% if not profile_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation'><a class="" href="{% url 'profile' %}">Profile</a></h3>{% endif %}
+            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation sm:block hidden'><a class="" href="{% url 'logout' %}">{{user.username}} | Log Out</a></h3>
         </div>
       </nav>
 	<body class="bg-[#434343] scroll-m-0">
@@ -30,35 +30,4 @@
 		This is the default content.
 		{% endblock %}
 	</body>
-  {% if not no_footer %}
-  <footer class="bg-white py-6 inset-x-0 w-full p-2 h-32 bottom-0 fixed left-0 right-0">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex ml-20 mr-20 justify-between">
-        <div class="mb-4 sm:mb-0 hidden sm:block">
-          <h3 class="text-lg font-medium mb-2 flex">Basic</h3>
-          <ul class="space-y-1">
-            <li>Q1</li>
-            <li>Q2</li>
-          </ul>
-        </div>
-  
-        <div class="mb-4 md:mb-0">
-          <h3 class="text-lg font-medium mb-2 flex">Legal</h3>
-          <ul class="space-y-1">
-            <li>Terms of Use</li>
-            <li>Policy</li>
-          </ul>
-        </div>
-  
-        <div class="mb-4 md:mb-0 hidden md:block">
-          <h3 class="text-lg font-medium mb-2 flex">Basic</h3>
-          <ul class="space-y-1">
-            <li>Q1</li>
-            <li>Q2</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
-  {% endif %}
 </html>

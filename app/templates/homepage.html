@@ -15,12 +15,10 @@
         </div>
         {% endfor %}
     {% else %}
+    <h3 class="text-blue-500"></h3>
     <div class="w-1/4 h-96 mx-auto bg-white rounded-2xl">
         <h3 class="text-center text-3xl text-black underline font-bold p-3 mt-20 z-0">No Trips</h3>
-        <a href="{% url 'trip' %}" class="w-1/2 mx-auto flex bg-[#FCA503] text-[#434343] font-bold p-6 justify-center mt-8 rounded-md text-2xl text-center">Add Trip</a>
-        <div class="fixed bottom-20 left-0 right-0 flex justify-center items-center">
-            <img class="opacity-30 hover:animate-ping ease-in-out duration-700" src="{% static 'images/sad_dog_BW.png' %}" alt="">
-        </div>
+        <a href="{% url 'trip' %}" class="w-1/2 mx-auto flex bg-[#FCA503] text-[#434343] font-bold p-6 justify-center mt-8 rounded-md text-2xl text-center">{{ user.phone_number}} Add Trip</a>
     </div>
     {% endif %}
 </section>
