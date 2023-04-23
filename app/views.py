@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, reverse
-from app.forms import UserFormCreation, TripForm, GuideForm
-from app.models import TourGuide, Trip, User
+from app.forms import UserFormCreation, TripForm, GuideForm, ProfileRegisterForm
+from app.models import TourGuide, Trip, User, Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout
+from django.contrib import messages
 from django.contrib.auth import login as log
 import os
 from twilio.rest import Client
@@ -47,6 +48,9 @@ client = Client(account_sid, auth_token)
   #to="+16616078687"
 #)
 
+def spawn_trips(request):
+    return (Profile.objects.filter(user=request.user))
+
 def landing_page(request):
     context = {'background_color': '#000000'}
     return render(request, 'landing_page.html', context)
@@ -54,15 +58,25 @@ def landing_page(request):
 def signup(request):
     if request.method == 'POST':
         form = UserFormCreation(request.POST)
-        if form.is_valid():
-            user = User.objects.get(username=request.user.username)
-            user.phone_number = request.POST.get('phone_number')
-            user.phone_number = '555-3211'
-            user.save()
+        p_reg_form = ProfileRegisterForm(request.POST)
+        if form.is_valid() and p_reg_form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            p_reg_form = ProfileRegisterForm(request.POST, instance=user.profile)
+            print(p_reg_form)
+            
+            p_reg_form.full_clean()
+            p_reg_form.save()
+            messages.success(request, f'Your account has been sent for approval!')
             return redirect('login')
     else:
         form = UserFormCreation()
-    return render(request, 'signup.html', {'form': form})
+        p_reg_form = ProfileRegisterForm()
+    context = {
+        'form': form,
+        'p_reg_form': p_reg_form
+    }
+    return render(request, 'signup.html', context)
 
 
 def login(request):
@@ -70,7 +84,7 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user is not None:    
             log(request, user)
             return redirect('home')
         else:
@@ -99,7 +113,8 @@ def payments(request):
 @login_required(login_url='login')
 def view_guide(request):
     if request.method == 'GET':
-        filtered_guides = TourGuide.objects.filter(user__city=request.user.city)
+        profile = spawn_trips(request)
+        filtered_guides = TourGuide.objects.filter(user__state=profile[0].state)
         context = {'guides': filtered_guides}
         return render(request, 'render_guides.html', context)
     else:
