@@ -5,17 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-import cohere
-from cohere.responses.classify import Example
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
-
-token = "HzjCMtH41AM8MQnmvPqosSQom9CUm981o3M9KCO8"
 
 
-co = cohere.Client(token)
+
+
 
 def landing_page(request):
     context = {'background_color': '#000000'}
