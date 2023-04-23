@@ -26,9 +26,11 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('logout', views.login, name='logout'),
     path('profile', views.profile, name='profile'),
-    path('payments', views.payments, name='payments'),
+    path('update_profile', views.update_profile, name='update_profile'),
     path('aboutus', views.about_us, name='/aboutus'),
     path('trip', views.trip, name='trip'),
+    path('render_guides', views.view_guide, name='render_guides'),
     path('guide', views.guide, name='guide'),
+    path('card', views.card, name='card'),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

@@ -2,16 +2,14 @@
 
 {% block content %}
 <div class="container my-10 p-10 rounded-lg bg-gray-100 text-gray-800 w-1/2 mx-auto">
-    <h1 class="text-center mb-12 font-bold text-3xl">Profile Page</h1>
-    <form method="post" enctype="multipart/form-data" class="mx-auto max-w-lg">
+    <h1 class="text-center mb-12 font-bold text-3xl underline">Profile Page</h1>
+    <form method="post" enctype="multipart/form-data" action="update_profile" class="mx-auto max-w-lg">
         {% csrf_token %}
         <div class="grid grid-cols-1 gap-y-6">
             <div class="flex items-center justify-center space-x-6">
-                <label for="profile-pic" class="text-xl font-semibold p-4 bg-[#434343] text-[#FCA503] rounded-xl">Upload Picture </label>
+                <label for="profile-pic" class="text-xl font-semibold p-4 bg-[#434343] text-[#FCA503] hover:bg-[#FCA503] hover:text-[#434343] ease-out duration-700 rounded-xl">Upload Picture </label>
                 <div class="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full border-2 border-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M6.5 5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zm5 5a5 5 0 11-10 0 5 5 0 0110 0z" clip-rule="evenodd" />
-                    </svg>
+                    <img class="h-16 w-16" src="{{ user.profile_picture.image.url}}" alt="PFP">
                 </div>
                 <input type="file" class="sr-only" id="profile-pic" name="profile_pic">
             </div>
@@ -25,7 +23,7 @@
             </div>
         </div>
         <div class="mx-auto mt-10">
-            <button type="submit" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+            <button type="submit" class="inline-flex hover:bg-[#434343] hover:text-[#FCA503] ease-out duration-700 items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#FCA503] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                 Save
             </button>
         </div>

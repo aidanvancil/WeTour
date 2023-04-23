@@ -1,10 +1,9 @@
 {% extends 'base_home.html' %}
-
+{% load static %}
 {% block content %}
 <section>
-    <a class="p-5 ml-5 bg-[#FCA503] text-[#434343]  px-4 py-2 font-bold rounded-md text-xl sm:text-base md:text-lg lg:text-xl xl:text-2xl" href="{% url 'trip' %}">Add Trip</a>
-    
     {% if user.trips > 0 %}
+    <a href="{% url 'trip' %}" class="fixed md:top-24 md:left-10 z-50 bg-[#FCA503] text-[#434343] font-bold py-2 px-4 rounded-md text-xl">Add Trip</a>
     <h3 class="text-center text-3xl text-white underline p-3 mt-2">Trips</h3>
         {% for trip in user.trips %}
         <div id="card" class="flex my-auto p-5">
@@ -16,7 +15,11 @@
         </div>
         {% endfor %}
     {% else %}
-    <h3 class="text-center text-3xl text-white underline font-bold p-3 mt-2">No Trips...</h3>
+    <h3 class="text-blue-500"></h3>
+    <div class="w-1/4 h-96 mx-auto bg-white rounded-2xl">
+        <h3 class="text-center text-3xl text-black underline font-bold p-3 mt-20 z-0">No Trips</h3>
+        <a href="{% url 'trip' %}" class="w-1/2 mx-auto flex bg-[#FCA503] text-[#434343] font-bold p-6 justify-center mt-8 rounded-md text-2xl text-center">{{ user.phone_number}} Add Trip</a>
+    </div>
     {% endif %}
 </section>
 {% endblock %}

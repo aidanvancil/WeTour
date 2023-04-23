@@ -1,42 +1,126 @@
 {% extends 'base_home.html' %}
-
+{% load widget_tweaks %}
 {% block content %}
-<section class="w-2/3 max-w-2/3 mx-auto my-10 px-5 py-10 bg-white rounded-lg shadow-lg">
-  <form method="post" action="trip" class="w-full md:w-3/4 lg:w-1/2 mx-auto space-y-6">
+<section class="w-2/3 mx-auto my-10 px-5 py-10 bg-white rounded-lg shadow-lg">
+  <form method="post" action="" id="inpform" class="w-full md:w-3/4 lg:w-1/2 mx-auto space-y-6">
     {% csrf_token %}
     <div class="grid grid-cols-2 gap-6">
       <div class="flex flex-col">
-        <label for="gender" class="font-bold text-gray-800 mb-2">Gender</label>
+        <label for="state" class="font-bold text-gray-800 mb-2">Destination: State</label>
+        {{ form.state|add_class:"rounded" }}
+      </div>
+      <div class="flex flex-col">
+        <label for="city" class="font-bold text-gray-800 mb-2">Destination: City</label>
+        {{ form.city|add_class:"rounded" }}
+      </div>
+      <div class="flex flex-col">
+        <label for="gender" class="font-bold text-gray-800 mb-2">Preferred Gender</label>
         <div class="relative">
-          {{ form.gender }}
+          {{ form.gender|add_class:"rounded" }}
         </div>
       </div>
+  
       <div class="flex flex-col">
-        <label for="state" class="font-bold text-gray-800 mb-2">State</label>
-        {{ form.state }}
-      </div>
-      <div class="flex flex-col">
-        <label for="city" class="font-bold text-gray-800 mb-2">City</label>
-        {{ form.city }}
-      </div>
-      <div class="flex flex-col">
-        <label for="days" class="font-bold text-gray-800 mb-2">Days</label>
-        {{ form.days }}
+        <label for="days" class="font-bold text-gray-800 mb-2">Date of Arrival</label>
+        {{ form.days|add_class:"rounded" }}
       </div>
     </div>
-    <div class="flex space-x-10 justify-items-center justify-center">
-        <div class="flex flex-col">
-        <label for="languages" class="font-bold text-gray-800 mb-2">Languages</label>
-        {{ form.languages }}
-        </div>
-        <div class="flex flex-col md:ml-24 sm:ml-10 ml-6">
-        <label for="qualities" class="font-bold text-gray-800 mb-2">Qualities</label>
-        {{ form.qualities }}
-        </div>
+    <div class="">
+      <label for="languages" class="font-bold text-gray-800 mb-2">Preferred Languages <span class="text-red-600">(Max: 2)</span></label>
+      <div id="language-buttons" class="flex flex-wrap mb-4">
+        {% for i in languages %}
+          <button class="rounded bg-gray-200 text-gray-800 px-4 py-2 mr-2 my-1 language-button" data-value="{{ i }}">
+            {{ i }}
+          </button>
+        {% endfor %}
+      </div>
+      <div id="selected-languages" class="mt-4">
+        <span class="font-bold text-gray-800 mr-2">Selected Languages:</span>
+        <ul id="selected-languages-list"></ul>
+      </div>
     </div>
+        
+      <div class="">
+        <label for="qualities" class="font-bold text-gray-800 mb-2">Preferred Qualities <span class="text-red-600">(Max: 5)</span></label>
+        <div id="qual-buttons" class="flex flex-wrap mb-4">
+          {% for i in qualities %}
+            <button class="rounded bg-gray-200 text-gray-800 px-4 py-2 mr-2 my-1 qual-button" data-value="{{ i }}">
+              {{ i }}
+            </button>
+          {% endfor %}
+        </div>
+        <div id="selected-q" class="mt-4">
+          <span class="font-bold text-gray-800 mr-2">Selected Qualities:</span>
+          <ul id="selected-q-list"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col items-center">
     <button class="bg-[#FCA503] text-[#434343] mt-6 font-bold py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none focus:shadow-outline" type="submit">
       Search
     </button>
+    </div>
   </form>
 </section>
+
+
+<script>
+  const langbutton = document.querySelectorAll('.language-button');
+  const qualbutton = document.querySelectorAll('.qual-button');
+  const selectedClass = 'bg-blue-500-text-white'; 
+  const selectedLanguagesList = document.getElementById('selected-languages-list');
+  const selectedQualList = document.getElementById('selected-q-list');
+  const languagePool = document.getElementById('language-buttons');
+  const qualPool = document.getElementById('qual-buttons');
+  const maxLangSelected = 2;
+  const maxQualSelected = 5;
+
+  langbutton.forEach(butto => {
+    butto.addEventListener('click', () => {
+      butto.classList.toggle(selectedClass);
+  
+      if (butto.classList.contains(selectedClass) && maxLangSelected - selectedLanguagesList.children.length > 0) {
+        selectedLanguagesList.appendChild(butto);
+      } else {
+        const listItem = document.createElement('li');
+        listItem.innerText = butto.getAttribute('data-value');
+        languagePool.appendChild(butto);
+      }
+    });
+  });
+
+  qualbutton.forEach(butto => {
+    butto.addEventListener('click', () => {
+      butto.classList.toggle(selectedClass);
+  
+      if (butto.classList.contains(selectedClass) && maxQualSelected - selectedQualList.children.length > 0) {
+        selectedQualList.appendChild(butto);
+      } else {
+        const listItem = document.createElement('li');
+        listItem.innerText = butto.getAttribute('data-value');
+        qualPool.appendChild(butto);
+      }
+    });
+  });
+
+
+  const langButtons = document.querySelectorAll('.language-button');
+  const qualButtons = document.querySelectorAll('.qual-button');
+  const form = document.querySelector('form');
+
+  langButtons.forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      // add or remove the button from the selected languages list
+    });
+  });
+
+  qualButtons.forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      // add or remove the button from the selected qualities list
+    });
+  });
+</script>
+
 {% endblock %}
