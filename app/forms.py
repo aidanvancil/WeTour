@@ -27,27 +27,10 @@ class ProfileRegisterForm(forms.ModelForm):
         self.fields['phone_number'].widget.attrs.update({'placeholder': ('Phone #')})
 
 class TripForm(forms.Form):
-    GENDER_CHOICES = (
+    GENDER_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female'),
         ('O', 'Other'),
-    )
-    LANGUAGES_CHOICES = (
-        ('EN', 'English'),
-        ('FR', 'French'),
-        ('ES', 'Spanish'),
-        ('DE', 'German'),
-    )
-    QUALITIES_CHOICES = [
-        'Shy',
-        'Introvert',
-        'Extrovert',
-        'Adventurous',
-        'Daring',
-        'Calm',
-        'Nervous',
-        'Cautious',
-        'Open Minded',
     ]
 
     gender = forms.ChoiceField(
@@ -74,31 +57,16 @@ class TripForm(forms.Form):
     
         
 class GuideForm(forms.Form):
-    GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other'),
-    )
-    LANGUAGES_CHOICES = (
-        ('EN', 'English'),
-        ('FR', 'French'),
-        ('ES', 'Spanish'),
-        ('DE', 'German'),
-    )
-    
-    gender = forms.ChoiceField(
-        choices=GENDER_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-select'}),
+    profile_pic = forms.ImageField(required=False)
+    bio = forms.CharField(
+        max_length=200,
+        widget=forms.TextInput(attrs={'class': 'form-input'})
     )
     state = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'form-input'}),
     )
     city = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-input'}),
-    )
-    phone_number = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'form-input'}),
     )
