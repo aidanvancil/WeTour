@@ -1,0 +1,40 @@
+{% extends 'base_home.html' %} <!-- Or base.html -->
+{% load static %}
+
+
+{% block content %}
+    <div class="flex h-screen overflow-hidden justify-center">
+        <div class = "flex flex-col items-center justify-center w-4/5 h-5/6"> 
+            
+            <div class="bg-[#03915E] rounded-xl h-[85%] w-5/6"> 
+                <div
+                  style="border-width: 30px"
+                  class="bg-[#434343] h-full w-full ml-6 mt-6 rounded-xl border-amber-500 bg-white">
+                  <h3 class="text-[#434343] p-5 font-bold rounded-lg text-5xl text-center mb-4">About Us</h3>
+                    <div class="flex flex-row relative">
+
+                        <br>
+                        <br>
+                        
+                        <div class="left-0 bottom-0 w-1/2 ml-3 mb-3">
+                            <img alt="" src="{% static 'images/WeTourTeamPhoto.jpg' %}" class="absolute w-1/2 rounded-lg">
+                        </div>
+                        
+                        <div class="flex flex-col ml-[3%] pl-0 w-1/2 relative">
+                            <br>
+                            <br>
+                            <p class="text-[#434343] rounded-lg text-2xl text-center">Welcome to WeTour! We hope you have an amazing time exploring new places and meeting new people. </p>
+                            <br>
+                            <br>
+                            <p class="text-[#434343] rounded-lg text-2xl text-center">With love from the WeTour team!</p>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+{% endblock %}
