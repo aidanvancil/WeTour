@@ -1,43 +1,61 @@
 from django.shortcuts import render, redirect, reverse
-from app.forms import UserFormCreation, TripForm, GuideForm
-from app.models import TourGuide, User, Trip
+from app.forms import UserFormCreation, TripForm, GuideForm, ProfileRegisterForm
+from app.models import TourGuide, Profile, Trip
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-import stripe
-import environ
+from django.contrib import messages
 
-env = environ.Env()
-environ.Env.read_env()
-
-stripe.api_key = env('STRIPE_API_KEY')
 
 def landing_page(request):
     context = {'background_color': '#000000'}
     return render(request, 'landing_page.html', context)
 
+def spawn_trips():
+    users = User.objects.all()
+    profiles = []
+    for user in users:
+        profiles.append(Profile.objects.filter(user=user))
+    return user, profiles
+
 def signup(request):
     if request.method == 'POST':
-        f = UserFormCreation(request.POST)
-        if f.is_valid():
-            f.save()
-            return redirect('register')
+        form = UserFormCreation(request.POST)
+        p_reg_form = ProfileRegisterForm(request.POST)
+        if form.is_valid() and p_reg_form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            p_reg_form = ProfileRegisterForm(request.POST, instance=user.profile)
+            print(p_reg_form)
+            
+            p_reg_form.full_clean()
+            p_reg_form.save()
+            messages.success(request, f'Your account has been sent for approval!')
+            return redirect('login')
     else:
-        f = UserFormCreation()
-    return render(request, 'signup.html')
+        form = UserFormCreation()
+        p_reg_form = ProfileRegisterForm()
+    context = {
+        'form': form,
+        'p_reg_form': p_reg_form
+    }
+    return render(request, 'signup.html', context)
 
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get("username")
+        password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             redirect('home')
         else:
             error_message = "Username or password is incorrect."
+            print(error_message)
             context = {'error_message': error_message}
             return render(request, 'login.html', context)
+    print("bruh")
     return render(request, 'login.html')
 
 @login_required(login_url='login')
@@ -46,10 +64,18 @@ def logout(request):
     return redirect('login')
 
 def homepage(request):
-    return render(request, 'homepage.html', {'homepage_T': True})
+    users, profiles = spawn_trips()
+    return render(request, 'homepage.html', {'homepage_T': True, 'users': users, 'profiles': profiles})
 
 def profile(request):
-    return render(request, 'profile.html', {'no_footer': True, 'profile_T': True})
+    
+    profile = Profile.objects.filter(user=request.user)
+    user = User.objects.filter(username=request.user)
+    print(profile[0].user)
+    print(user[0].username)
+    
+
+    return render(request, 'profile.html', {'no_footer': True, 'profile_T': True, 'profile': profile[0], 'user': user[0]})
 
 def about_us(request):
     return render(request, 'aboutus.html', {'no_footer': True, 'profile_T': True})
@@ -78,13 +104,15 @@ def trip(request):
             days = form.cleaned_data['days']
             languages = form.cleaned_data['languages']
             qualities = form.cleaned_data['qualities']
-            user = User.objects.get(username=request.user.username)
+            biography = form.cleaned_data['biography']
+            user = Profile.objects.get(username=request.user.username)
             user.gender = gender
             user.city = city
             user.state = state
             user.gender = gender
             user.personality_traits = languages
             user.languages = qualities
+            user.biography = biography
             user.save()
             return view_guide(request)
     else:
@@ -104,10 +132,15 @@ def guide(request):
             license_plate = form.cleaned_data['license_plate']
             languages = form.cleaned_data['languages']
             qualities = form.cleaned_data['qualities']
+            biography = form.cleaned_data['biography']
             # Do something with the data
             return redirect('home')
     else:
         form = TripForm()
     return render(request, 'guide.html', {'form': form, 'no_footer': True, 'guide_T': True})
+
+def sub_trip(request):
+    user = request.user 
+    return render(request, 'sub_trip.html', {'form': form, 'no_footer': True})
 
         

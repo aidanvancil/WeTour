@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'tailwind',
     'app',
     'django_browser_reload',
+    'widget_tweaks',
+    'crispy_forms',
+    'crispy_tailwind',
 ]
 
 INTERNAL_IPS = [

@@ -31,4 +31,5 @@ urlpatterns = [
     path('trip', views.trip, name='trip'),
     path('guide', views.guide, name='guide'),
     path("__reload__/", include("django_browser_reload.urls")),
+    path('sub_trip', views.sub_trip, name='sub_trip'),
 ]

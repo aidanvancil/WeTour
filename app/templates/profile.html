@@ -16,12 +16,16 @@
                 <input type="file" class="sr-only" id="profile-pic" name="profile_pic">
             </div>
             <div class="grid grid-cols-1 gap-y-2">
-                <label for="full-name" class="text-xl font-semibold">Full Name:</label>
-                <input type="text" class="px-4 py-2 rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="full-name" name="full_name" value="{{ user.full_name }}" required>
+                <label for="full-name" class="text-xl font-semibold">First Name:</label>
+                <input type="text" class="px-4 py-2 rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="first-name" name="first_name" value="{{ user.first_name }}" required>
+            </div>
+            <div class="grid grid-cols-1 gap-y-2">
+                <label for="full-name" class="text-xl font-semibold">Last Name:</label>
+                <input type="text" class="px-4 py-2 rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="last-name" name="last_name" value="{{user.last_name}}" required>
             </div>
             <div class="grid grid-cols-1 gap-y-2">
                 <label for="phone-number" class="text-xl font-semibold">Phone Number:</label>
-                <input type="text" class="px-4 py-2 rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="phone-number" name="phone_number" value="{{ user.phone_number }}" required>
+                <input type="text" class="px-4 py-2 rounded-md border-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="phone-number" name="phone_number" value="{{ profile.phone_number }}" required>
             </div>
         </div>
         <div class="mx-auto mt-10">
@@ -30,6 +34,9 @@
             </button>
         </div>
     </form>
+    <div> 
+        {{profile.phone_number}}
+    </div>
 </div>
 {% endblock %}
 ``

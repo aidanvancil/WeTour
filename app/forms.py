@@ -1,11 +1,28 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Profile
 from django import forms
 
 class UserFormCreation(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update({'placeholder': ('First Name')})
+        self.fields['last_name'].widget.attrs.update({'placeholder': ('Last Name')})
+        self.fields['username'].widget.attrs.update({'placeholder': ('Username')})
+        self.fields['email'].widget.attrs.update({'placeholder': ('Email')})
+        self.fields['password1'].widget.attrs.update({'placeholder': ('Password')})        
+        self.fields['password2'].widget.attrs.update({'placeholder': ('Repeat password')})
+
+class ProfileRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['phone_number']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['phone_number'].widget.attrs.update({'placeholder': ('Phone #')})
 
 class TripForm(forms.Form):
 
@@ -48,6 +65,10 @@ class TripForm(forms.Form):
     qualities = forms.MultipleChoiceField(
         choices=QUALITIES_CHOICES,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-checkbox'}),
+    )
+    biography = forms.CharField(
+        max_length=200,
+        widget=forms.TextInput(attrs={'class': 'form-input'}),
     )
 
 class GuideForm(forms.Form):
@@ -104,3 +125,8 @@ class GuideForm(forms.Form):
         choices=QUALITIES_CHOICES,
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-checkbox'}),
     )
+    biography = forms.CharField(
+        max_length=200,
+        widget=forms.TextInput(attrs={'class': 'form-input'}),
+    )
+    
