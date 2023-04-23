@@ -106,6 +106,9 @@ def homepage(request):
 def profile(request):
     return render(request, 'profile.html', {'no_footer': True, 'profile_T': True})
 
+def about_us(request):
+    return render(request, 'aboutus.html', {'no_footer': True, 'profile_T': True})
+
 @login_required(login_url='login')
 def payments(request):
     return render(request, 'payments.html', {'payments_T': True})
