@@ -5,15 +5,22 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-import cohere  
+import cohere
+from cohere.responses.classify import Example
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
+token = env('AUTH_TOKEN')
+
+
+co = cohere.Client(token)
 
 def landing_page(request):
     context = {'background_color': '#000000'}
     return render(request, 'landing_page.html', context)
 
-def cohere():
-    
-    co = cohere.Client(api_key)
 
 def spawn_trips():
     users = User.objects.all()
@@ -23,6 +30,7 @@ def spawn_trips():
     return user, profiles
 
 def signup(request):
+    cohere()
     if request.method == 'POST':
         form = UserFormCreation(request.POST)
         p_reg_form = ProfileRegisterForm(request.POST)
@@ -47,6 +55,7 @@ def signup(request):
 
 
 def login(request):
+    cohere()
     if request.method == 'POST':
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -69,6 +78,7 @@ def logout(request):
 
 def homepage(request):
     users, profiles = spawn_trips()
+    cohere()
     return render(request, 'homepage.html', {'homepage_T': True, 'users': users, 'profiles': profiles})
 
 def profile(request):
@@ -92,7 +102,9 @@ def payments(request):
 def view_guide(request):
     if request.method == 'GET':
         filtered_guides = TourGuide.objects.filter(user__city=request.user.city)
-        context = {'guides': filtered_guides}
+        response = co.summarize(text=TourGuide.bio)
+        print(response)
+        context = {'guides': filtered_guides, 'bio': response}
         return render(request, 'render_guides.html', context)
     else:
         return redirect('home')
