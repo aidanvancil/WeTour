@@ -14,15 +14,16 @@
 	</head>
   <nav class="bg-white sticky flex top-0 text-center justify-between p-2 z-50">
         <div class='flex relative mls-10' style="display: flex; justify-content: center; align-items: center;">
-          <img class="max-h-[40px] !important" src="{% static 'images/logo.png' %}" alt="logo"/>
+          <a href="{% url 'landing_page' %}"><img class="max-h-[40px] !important" src="{% static 'images/logo.png' %}" alt="logo"/></a>
         </div>
         <div class='flex justify-between p-4 font-ubuntu font-bold mt-2 text-[#434343] space-x-12'>
             <img src="" alt="" />
             <img src="" alt="" />
             {% if not homepage_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation'><a class="" href="{% url 'home' %}">Trips</a></h3>{% endif %}
-            {% if not guide_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation md:block hidden'><a class="" href="{% url 'guide' %}">Become A Tour Guide</a></h3>{% endif %}
+            {% if not guide_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation'><a class="" href="{% url 'guide' %}">Become A Tour Guide</a></h3>{% endif %}
             {% if not profile_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation'><a class="" href="{% url 'profile' %}">Profile</a></h3>{% endif %}
-            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation sm:block hidden'><a class="" href="{% url 'logout' %}">{{user.username}} | Log Out</a></h3>
+            {% if not about_T %}<h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 underline-animation'><a class="" href="{% url 'about' %}">About Us</a></h3>{% endif %}
+            <h3 class='sm:mr-4 md:mr-4 lg:mr-6 xl:mr-10 mr-16 shadow-xl transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105 md:block hidden px-2 py-1 bg-black rounded-lg text-white sm:block hidden'><a class="" href="{% url 'logout' %}">{{user.username}} | Log Out</a></h3>
         </div>
       </nav>
 	<body class="bg-[#434343] scroll-m-0">

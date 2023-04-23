@@ -11,7 +11,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=10, null=True)
     personality_traits = models.JSONField(default=list)
     languages = models.JSONField(default=list)
-    biography = models.CharField(max_length=200, null=True)
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -26,11 +26,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class TourGuide(models.Model):
     user = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    bio = models.TextField()
-
+    bio= models.CharField(max_length=200, null=True)
 class Trip(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trips')
     destination = models.CharField(max_length=100)
-    num_days = models.IntegerField()
-    description = models.TextField()
-    tour_guide = models.ForeignKey(TourGuide, on_delete=models.SET_NULL, null=True, blank=True)

@@ -2,6 +2,7 @@
 {% load widget_tweaks %}
 {% block content %}
 <section class="w-2/3 mx-auto my-10 px-5 py-10 bg-white rounded-lg shadow-lg">
+  <div class="w-full p-4"><h1 class="flex font-bold text-black underline text-2xl justify-center">Add A Trip</h1></div>
   <form method="post" action="" id="inpform" class="w-full md:w-3/4 lg:w-1/2 mx-auto space-y-6">
     {% csrf_token %}
     <div class="grid grid-cols-2 gap-6">

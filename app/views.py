@@ -2,13 +2,16 @@ from django.shortcuts import render, redirect, reverse
 from app.forms import UserFormCreation, TripForm, GuideForm, ProfileRegisterForm
 from app.models import TourGuide, Trip, User, Profile
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.contrib.auth import login as log
+from django.contrib.auth import logout as auth_logout
 import os
 from twilio.rest import Client
 import environ
+import cohere
 
+co = cohere.Client('<CH11rgIb6Qn54wJphehBGeMm0EHmuJJxBXiS3IAS>')
 env = environ.Env()
 environ.Env.read_env()
 
@@ -95,19 +98,24 @@ def login(request):
 
 @login_required(login_url='login')
 def logout(request):
-    logout(request)
+    auth_logout(request)
     return redirect('login')
 
 @login_required(login_url='login')
 def homepage(request):
-    return render(request, 'homepage.html', {'homepage_T': True})
+    trips = Trip.objects.filter(user=request.user).all()
+    trips_count = Trip.objects.filter(user=request.user).count()
+    print(trips)
+    print(trips_count)
+    return render(request, 'homepage.html', {'homepage_T': True, 'trips':trips, 'trip_count':trips_count})
 
 @login_required(login_url='login')
 def profile(request):
     return render(request, 'profile.html', {'no_footer': True, 'profile_T': True})
 
+@login_required(login_url='login')
 def about_us(request):
-    return render(request, 'aboutus.html', {'no_footer': True, 'profile_T': True})
+    return render(request, 'aboutus.html', {'no_footer': True, 'about_T': True})
 
 @login_required(login_url='login')
 def payments(request):
@@ -118,7 +126,7 @@ def view_guide(request):
     if request.method == 'GET':
         profile = spawn_trips(request)
         filtered_guides = TourGuide.objects.filter(user__state=profile[0].state)
-        context = {'guides': filtered_guides}
+        context = {'guides': filtered_guides, 'qualities': QUALITIES_CHOICES, 'languages': LANGUAGES}
         return render(request, 'render_guides.html', context)
     else:
         return redirect('home')
@@ -131,11 +139,10 @@ def trip(request):
             gender = form.cleaned_data['gender']
             state = form.cleaned_data['state']
             city = form.cleaned_data['city']
-            request.user.city = city
-            request.user.state = state
-            request.user.gender = gender
-
-            request.user.save()
+            newTrip = Trip()
+            newTrip.destination = city + ', ' + state
+            newTrip.user = request.user
+            newTrip.save()
             return redirect('render_guides')
     else:
         form = TripForm()
@@ -146,15 +153,17 @@ def guide(request):
     if request.method == 'POST':
         form = GuideForm(request.POST)
         if form.is_valid():
-            gender = form.cleaned_data['gender']
-            state = form.cleaned_data['state']
-            city = form.cleaned_data['city']
-            phone_number = form.cleaned_data['phone_number']
-            # Do something with the data
+            bio = form.cleaned_data['bio']
+            profile = spawn_trips(request)
+            guide = TourGuide()
+            response = co.summarize(text=bio)
+            guide.user = profile[0]
+            guide.bio = response.classifications.prediction
+            guide.save()
             return redirect('home')
     else:
         form = GuideForm()
-    return render(request, 'guide.html', {'form': form, 'no_footer': True, 'guide_T': True})
+    return render(request, 'guide.html', {'form': form, 'no_footer': True, 'guide_T': True, 'qualities': QUALITIES_CHOICES, 'languages': LANGUAGES})
 
 @login_required(login_url='login')
 def update_profile(request):
